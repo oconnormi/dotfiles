@@ -71,3 +71,6 @@ if [ -f /usr/bin/vim ]; then
   export EDITOR=/usr/bin/vim
 fi
 
+# Unsets
+# remove ssh_askpass
+unset SSH_ASKPASS

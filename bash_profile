@@ -136,3 +136,10 @@ alias gf='git fetch'
 alias gu='git pull'
 
 
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias mkdir='mkdir -pv'
+alias ll='ls -FGlAhp'
+alias less='less -FSRXc'
+
+

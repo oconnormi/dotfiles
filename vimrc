@@ -126,3 +126,13 @@ endif
 
 set background=dark
 colorscheme solarized
+
+
+" Set tabspaces
+let g:vim_markdown_folding_disabled=1
+set number
+set tabstop=2
+set softtabstop=2
+set expandtab
+
+autocmd Filetype javascript setlocal ts=2 sts=2 sw=2

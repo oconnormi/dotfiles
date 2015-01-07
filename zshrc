@@ -5,6 +5,8 @@ if [[ $(uname) = "Linux" ]]; then
 	if [[ -f ~/.linuxbrew/bin/brew ]]; then
 		export PATH="$HOME/.linuxbrew/bin:$PATH"
 		export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
+    export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
+    export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
 	fi
 fi
 
@@ -74,5 +76,9 @@ fi
 # Unsets
 # remove ssh_askpass
 unset SSH_ASKPASS
+
+if type -p hub; then
+  eval "$(hub alias -s)"
+fi
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting

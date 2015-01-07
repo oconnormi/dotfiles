@@ -4,11 +4,12 @@ filetype off                  " required
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
-"if has("vms")
-  set nobackup		" do not keep a backup file, use versions instead
-"else
-"  set backup		" keep a backup file
-"endif
+" if has("vms")
+"   set nobackup		" do not keep a backup file, use versions instead
+" else
+"   set backup		" keep a backup file
+" endif
+set nobackup
 set history=50		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
@@ -50,6 +51,11 @@ Plugin 'eddking/eclim-vundle'
 Bundle 'altercation/vim-colors-solarized'
 
 Plugin 'scrooloose/nerdtree'
+
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+
+Plugin 'tpope/vim-bundler'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required

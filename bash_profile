@@ -14,7 +14,7 @@ if [ -f ~/.git-prompt ]; then
 fi
 
 # Load homebrew/linuxbrew bash completion if it exists
-if type -p brew; then
+if [ -n $(type -p brew) ]; then
 	if [ -f `brew --prefix`/etc/bash_completion ]; then
 		    . `brew --prefix`/etc/bash_completion
 	fi
@@ -143,3 +143,5 @@ alias ll='ls -FGlAhp'
 alias less='less -FSRXc'
 
 
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*

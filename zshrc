@@ -74,3 +74,5 @@ fi
 # Unsets
 # remove ssh_askpass
 unset SSH_ASKPASS
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting

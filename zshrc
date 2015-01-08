@@ -77,7 +77,7 @@ fi
 # remove ssh_askpass
 unset SSH_ASKPASS
 
-if type -p hub; then
+if [ !"$(type -p hub)" = "" ]; then
   eval "$(hub alias -s)"
 fi
 

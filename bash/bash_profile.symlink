@@ -8,17 +8,13 @@ if [ `uname` == "Linux" ]; then
 	fi
 fi
 
+[[ -f ~/.dircolors/dircolors.ansi-dark ]] && eval $(dircolors ~/.dircolors/dircolors.ansi-dark)
+
 # Load Git Prompt
-if [ -f ~/.git-prompt ]; then
-        . ~/.git-prompt
-fi
+[[ -f ~/.git-prompt ]] && . ~/.git-prompt
 
 # Load homebrew/linuxbrew bash completion if it exists
-if [ -n $(type -p brew) ]; then
-	if [ -f `brew --prefix`/etc/bash_completion ]; then
-		    . `brew --prefix`/etc/bash_completion
-	fi
-fi
+[[ -n $(type -p brew) ]] && [[ -f `brew --prefix`/etc/bash_completion ]] && . `brew --prefix`/etc/bash_completion
 
 ##################################################################
 #                         Colors                                 #
@@ -119,7 +115,6 @@ unset SSH_ASKPASS
 
 export EDITOR=/usr/bin/vim
 
-
 # Git Aliases
 alias gs='git status '
 alias ga='git add '
@@ -139,13 +134,11 @@ alias gu='git pull'
 alias cp='cp -iv'
 alias mv='mv -iv'
 alias mkdir='mkdir -pv'
+alias ls='ls --color=auto'
 alias ll='ls -FGlAhp'
 alias less='less -FSRXc'
 
-
-
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-if [ -f $HOME/.bashrc ]; then
-  source $HOME/.bashrc
-fi
+# Source .bashrc
+[[ -f ~/.bashrc ] && . $HOME/.bashrc

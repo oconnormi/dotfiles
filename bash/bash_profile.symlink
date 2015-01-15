@@ -141,4 +141,4 @@ alias less='less -FSRXc'
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 # Source .bashrc
-[[ -f ~/.bashrc ] && . $HOME/.bashrc
+[[ -f ~/.bashrc ]] && . ~/.bashrc

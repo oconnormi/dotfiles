@@ -41,7 +41,11 @@ plugins=(git mvn osx zsh-syntax-highlighting brew sudo web-search node npm)
 source $ZSH/oh-my-zsh.sh
 
 if [ -f $HOME/.dircolors/dircolors.ansi-dark ]; then
-  eval `dircolors $HOME/.dircolors/dircolors.ansi-dark`
+  if [[ $(uname) = "Darwin" ]]; then
+    eval `gdircolors $HOME/.dircolors/dircolors.ansi-dark`
+  else
+    eval `dircolors $HOME/.dircolors/dircolors.ansi-dark`
+  fi
 fi
 
 # Put any proprietary or private functions/values in ~/.private, and this will source them

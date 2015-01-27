@@ -1,5 +1,5 @@
 # Explicitly configured $PATH variable
-PATH=/usr/local/git/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/local/bin:/opt/local/sbin:/usr/X11/bin
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/local/bin:/opt/local/sbin:/usr/X11/bin
 
 if [[ $(uname) = "Linux" ]]; then
 	if [[ -f ~/.linuxbrew/bin/brew ]]; then
@@ -65,6 +65,7 @@ alias gb='git branch '
 alias gc='git commit'
 alias gd='git diff'
 alias go='git checkout '
+alias gf='git fetch'
 alias got='git '
 alias get='git '
 
@@ -90,3 +91,6 @@ if [ !"$(type -p hub)" = "" ]; then
 fi
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+# added by travis gem
+[ -f /Users/mike/.travis/travis.sh ] && source /Users/mike/.travis/travis.sh

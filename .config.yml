@@ -1,0 +1,19 @@
+version: '1.0'
+dependencies:
+  xresources:
+    src: 'github:solarized/xresources'
+    dest: '.solarized/xresources'
+    link:
+      src: '.solarized/xresources/Xresources.dark'
+      dest: '.Xresources'
+  dircolors:
+    src: 'github:seebi/dircolors-solarized'
+    dest: '.solarized/dircolors'
+  i3blocks-contrib:
+    src: 'github:vivien/i3blocks-contrib'
+    dest: '.i3blocks-contrib'
+  oh-my-zsh:
+    src: 'github:robbyrussell/oh-my-zsh'
+    dest: '.oh-my-zsh'
+exclude:
+  - images

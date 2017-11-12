@@ -86,9 +86,7 @@ fi
 # remove ssh_askpass
 unset SSH_ASKPASS
 
-if [ !"$(type -p hub)" = "" ]; then
-  eval "$(hub alias -s)"
-fi
+eval "$(hub alias -s)"
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 

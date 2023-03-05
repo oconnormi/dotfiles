@@ -1,14 +1,6 @@
 # Explicitly configured $PATH variable
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/local/bin:/opt/local/sbin:/usr/X11/bin
-
-if [[ $(uname) = "Linux" ]]; then
-	if [[ -f ~/.linuxbrew/bin/brew ]]; then
-		export PATH="$HOME/.linuxbrew/bin:$PATH"
-		export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
-    export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
-    export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
-	fi
-fi
+#PATH=/home/linuxbrew/.linuxbrew/bin:$HOME/go/bin:$HOME/bin/:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/local/bin:/opt/local/sbin:/usr/X11/bin:/home/mike/.local/lib/aws/bin
+#export PATH="${PATH}:${HOME}/.krew/bin"
 
  # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
@@ -36,7 +28,7 @@ COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git mvn osx zsh-syntax-highlighting brew sudo web-search node npm)
+plugins=(git sudo kubectl helm)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -85,10 +77,17 @@ fi
 # Unsets
 # remove ssh_askpass
 unset SSH_ASKPASS
+# Use GPG SSH Agent
+export GPG_TTY="$(tty)"
+export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
+gpg-connect-agent updatestartuptty /bye
 
-eval "$(hub alias -s)"
+export XDG_CONFIG_HOME=$HOME/.config
+#export XDG_CACHE_HOME=$HOME/.cache
+#export XDG_DATA_HOME=$HOME=/.local/state
+export PATH="/home/mike/.local/bin:$PATH"
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
-# added by travis gem
-[ -f /Users/mike/.travis/travis.sh ] && source /Users/mike/.travis/travis.sh
+function decode_kubernetes_secret {
+  kubectl get secret $@ -o json | jq '.data | map_values(@base64d)'
+}
+alias ds="decode_kubernetes_secret"

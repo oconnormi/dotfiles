@@ -1,0 +1,39 @@
+[global]
+
+padding = 8
+dmenu = /usr/bin/rofi -dmenu -p dunst:
+
+frame_color = "#073642"
+separator_color = frame
+word_wrap = yes
+geometry = "800x50-15+49"
+shrink = no
+transparency = 5
+monitor = 0
+follow = none
+sticky_history = yes
+history_lenght = 15
+show_indicators = no
+line_height = 3
+separator_height = 2
+
+[base16_low]
+msg_urgency = low
+background = "#073642"
+foreground = "#586e75"
+
+[base16_normal]
+background = "#073642"
+msg_urgency = normal
+foreground = "#93a1a1"
+
+[base16_critical]
+msg_urgency = critical
+background = "#073642"
+foreground = "#cb4b16"
+
+[shortcuts]
+close = ctrl+space
+close_all = ctrl+shift+space
+history = ctrl+grave
+context = ctrl+shift+period 

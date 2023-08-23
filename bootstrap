@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Check if stow is in the path
+function check_for_stow {
+    if ! command -v stow &> /dev/null
+    then
+        echo "stow could not be found"
+        return 1
+    fi
+    return 0
+}
+
+# For each folder in directory run stow
+function stow_all {
+    for dir in */
+    do
+        stow ${dir}
+    done
+}
+
+function main {
+    check_for_stow
+    if [ $? -eq 0 ]
+    then
+        stow_all
+    fi
+}
+
+main

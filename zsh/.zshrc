@@ -1,44 +1,22 @@
-# Explicitly configured $PATH variable
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/local/bin:/opt/local/sbin:/usr/X11/bin
+######################
+#       GLOBAL       #
+######################
 
-if [[ $(uname) = "Linux" ]]; then
-	if [[ -f ~/.linuxbrew/bin/brew ]]; then
-		export PATH="$HOME/.linuxbrew/bin:$PATH"
-		export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
-    export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
-    export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
-	fi
+# Define global oh-my-zsh plugins variable early.
+# This will be dynamically populated as features and os are detected
+plugins=()
+
+# remove ssh_askpass
+unset SSH_ASKPASS
+
+# add .local/bin to the path
+if [[ -d $HOME/.local/bin ]]; then
+  export PATH=$HOME/.local/bin:$PATH
 fi
 
- # Path to your oh-my-zsh configuration.
-ZSH=$HOME/.oh-my-zsh
-#
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-ZSH_THEME="blinks"
-
-# Set to this to use case-sensitive completion
-# CASE_SENSITIVE="true"
-
-# Comment this out to disable weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
-
-# Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment following line if you want red dots to be displayed while waiting for completion
-COMPLETION_WAITING_DOTS="true"
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git mvn osx zsh-syntax-highlighting brew sudo web-search node npm)
-
-source $ZSH/oh-my-zsh.sh
+######################
+#  DIRCOLORS THEME   #
+######################
 
 if [ -f $HOME/.dircolors/dircolors.ansi-dark ]; then
   if [[ $(uname) = "Darwin" ]]; then
@@ -47,6 +25,10 @@ if [ -f $HOME/.dircolors/dircolors.ansi-dark ]; then
     eval `dircolors $HOME/.dircolors/dircolors.ansi-dark`
   fi
 fi
+
+######################
+#  PRIVATE SETTINGS  #
+######################
 
 # Put any proprietary or private functions/values in ~/.private, and this will source them
 if [ -f $HOME/.private ]; then
@@ -57,8 +39,10 @@ if [ -f $HOME/.profile ]; then
   source $HOME/.profile  # Read Mac .profile, if present.
 fi
 
-# Shell Aliases
-## Git Aliases
+######################
+#     GIT ALIASES    #
+######################
+
 alias gs='git status '
 alias ga='git add '
 alias gb='git branch '
@@ -69,26 +53,80 @@ alias gf='git fetch'
 alias got='git '
 alias get='git '
 
-# Shell Functions
+######################
+#  SHELL FUNCTIONS   #
+######################
+
 # qfind - used to quickly find files that contain a string in a directory
 qfind () {
   find . -exec grep -l -s $1 {} \;
   return 0
 }
 
-# Custom exports
+######################
+#       EDITOR       #
+######################
+
+if [[ -x "$(command -v lvim)" ]]; then
+  export EDITOR=lvim
+elif [[ -x "$(command -v nvim)" ]]; then
+  export EDITOR=nvim
+elif [[ -x "$(command -v vim)" ]]; then
+  export EDITOR=vim
+else
+  export EDITOR=vi
+fi
+
 ## Set EDITOR to /usr/bin/vim if Vim is installed
 if [ -f /usr/bin/vim ]; then
   export EDITOR=/usr/bin/vim
 fi
 
-# Unsets
-# remove ssh_askpass
-unset SSH_ASKPASS
+######################
+#        RUBY        #
+######################
 
-eval "$(hub alias -s)"
+if [[ -d "/$HOME/.rvm/bin" ]]; then
+  export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+  plugins+=(ruby)
+fi
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+######################
+#       BREW         #
+######################
 
-# added by travis gem
-[ -f /Users/mike/.travis/travis.sh ] && source /Users/mike/.travis/travis.sh
+if [[ $(uname) = "Linux" ]]; then
+	if [[ -f ~/.linuxbrew/bin/brew ]]; then
+		export PATH="$HOME/.linuxbrew/bin:$PATH"
+		export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
+    export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
+    export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
+    plugins+=(brew)
+	fi
+elif [[ $(uname) = "Darwin" ]]; then
+	if [[ -f /usr/local/bin/brew ]]; then
+    plugins+=(brew)
+  fi
+fi
+
+######################
+# OH-MY-ZSH SETTINGS #
+######################
+
+ZSH=$HOME/.oh-my-zsh
+
+ZSH_THEME="blinks"
+
+COMPLETION_WAITING_DOTS="true"
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Example format: plugins=(rails git textmate ruby lighthouse)
+plugins+=(git sudo node npm)
+
+
+if [[ $(uname) = "Darwin" ]]; then
+  plugins+=(osx)
+fi
+
+source $ZSH/oh-my-zsh.sh
+

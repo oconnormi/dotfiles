@@ -1,0 +1,19 @@
+[load]
+command=awk '{print $1,$2,$3}' /proc/loadavg
+label=
+interval=10
+
+[temperature]
+command=~/.i3blocks-contrib/temperature/temperature
+instance=Core
+label=
+interval=10
+
+[time]
+command=date '+%Y-%m-%d %H:%M:%S'
+interval=5
+
+[battery]
+command=~/.i3blocks-contrib/battery
+markup=pango
+interval=30

@@ -13,6 +13,9 @@ unset SSH_ASKPASS
 if [[ -d $HOME/.local/bin ]]; then
   export PATH=$HOME/.local/bin:$PATH
 fi
+if [[ -d $HOME/bin ]]; then
+  export PATH="$HOME/bin:$PATH"
+fi
 
 ######################
 #  DIRCOLORS THEME   #
@@ -40,18 +43,20 @@ if [ -f $HOME/.profile ]; then
 fi
 
 ######################
-#     GIT ALIASES    #
+#         GIT        #
 ######################
-
-alias gs='git status '
-alias ga='git add '
-alias gb='git branch '
-alias gc='git commit'
-alias gd='git diff'
-alias gco='git checkout '
-alias gf='git fetch'
-alias got='git '
-alias get='git '
+if [[ -x "$(command -v git)" ]]; then
+  alias gs='git status '
+  alias ga='git add '
+  alias gb='git branch '
+  alias gc='git commit'
+  alias gd='git diff'
+  alias gco='git checkout '
+  alias gf='git fetch'
+  alias got='git '
+  alias get='git '
+  plugins+=(git)
+fi
 
 ######################
 #  SHELL FUNCTIONS   #
@@ -86,7 +91,7 @@ fi
 #        RUBY        #
 ######################
 
-if [[ -d "/$HOME/.rvm/bin" ]]; then
+if [[ -d /$HOME/.rvm/bin ]]; then
   export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
   plugins+=(ruby)
 fi
@@ -110,6 +115,82 @@ elif [[ $(uname) = "Darwin" ]]; then
 fi
 
 ######################
+#      GPG AGENT     #
+######################
+
+if [[ -x "$(command -v gpg-agent)" ]]; then
+  # Activate GPG Agent
+  # Add the following to your shell init to set up gpg-agent automatically for every shell
+  if [ -f ~/.gnupg/.gpg-agent-info ] && [ -n "$(pgrep gpg-agent)" ]; then
+      source ~/.gnupg/.gpg-agent-info
+      export GPG_AGENT_INFO
+  else
+      eval $(gpg-agent --daemon --write-env-file ~/.gnupg/.gpg-agent-info)
+  fi
+  # Use gpg-agent for ssh auth
+  export SSH_AUTH_SOCK=~/.gnupg/S.gpg-agent.ssh
+fi
+
+######################
+#       GOLANG       #
+######################
+
+if [[ -x "$(command -v go)" ]]; then
+  export GOPATH=$HOME/go
+  export PATH=$PATH:$GOPATH/bin
+  plugins+=(golang)
+fi
+
+######################
+#      PYTHON        #
+######################
+
+# Pyenv
+#if [[ -x "$(command -v pyenv)" ]]; then
+#  eval "$(pyenv init zsh)"
+#  plugins+=(python pyenv poetry)
+#fi
+#if [[ -d $HOME/.poetry/bin ]]; then
+#  export PATH="$HOME/.poetry/bin:$PATH"
+#fi
+
+######################
+#        JAVA        #
+######################
+
+if [[ -d $HOME/.sdkman ]]; then
+  export SDKMAN_DIR="/Users/michaeloconnor/.sdkman"
+  if [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
+    source "$HOME/.sdkman/bin/sdkman-init.sh"
+    plugins+=(mvn gradle)
+  fi
+fi
+
+######################
+#     KUBERNETES     #
+######################
+
+#if [[ -x "$(command -v kubebuilder)" ]]; then
+#  eval "$(kubebuilder completion zsh)"
+#fi
+
+if [[ -d $HOME/.rd/bin ]]; then
+  ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+  export PATH="$HOME/.rd/bin:$PATH"
+  ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+fi
+
+
+######################
+#        RUST        #
+######################
+
+if [[ -d $HOME/.cargo/bin ]]; then
+  # Rust binaries
+  export PATH="$HOME/.cargo/bin:$PATH"
+fi
+
+######################
 # OH-MY-ZSH SETTINGS #
 ######################
 
@@ -121,11 +202,11 @@ COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins+=(git sudo node npm)
+plugins+=(sudo)
 
 
 if [[ $(uname) = "Darwin" ]]; then
-  plugins+=(osx)
+  plugins+=(macos)
 fi
 
 source $ZSH/oh-my-zsh.sh

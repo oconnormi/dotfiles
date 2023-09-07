@@ -17,6 +17,19 @@ if [[ -d $HOME/bin ]]; then
   export PATH="$HOME/bin:$PATH"
 fi
 
+if [[ -z "$XDG_CONFIG_HOME" ]]; then
+  export XDG_CONFIG_HOME=$HOME/.config
+fi
+
+if [[ -d $HOME/.zfunc ]]; then
+  fpath=( "$HOME/.zfunc" "${fpath[@]}" )
+  autoload -Uz compinit
+  zstyle ':completion:*' menu select
+  # fpath+$HOME/.zfunc
+fi
+
+export TERM='xterm-256color'
+
 ######################
 #  DIRCOLORS THEME   #
 ######################
@@ -74,17 +87,16 @@ qfind () {
 
 if [[ -x "$(command -v lvim)" ]]; then
   export EDITOR=lvim
+  export VISUAL=lvim
 elif [[ -x "$(command -v nvim)" ]]; then
   export EDITOR=nvim
+  export VISUAL=nvim
 elif [[ -x "$(command -v vim)" ]]; then
   export EDITOR=vim
+  export VISUAL=vim
 else
   export EDITOR=vi
-fi
-
-## Set EDITOR to /usr/bin/vim if Vim is installed
-if [ -f /usr/bin/vim ]; then
-  export EDITOR=/usr/bin/vim
+  export VISUAL=vi
 fi
 
 ######################
@@ -128,6 +140,7 @@ if [[ -x "$(command -v gpg-agent)" ]]; then
       eval $(gpg-agent --daemon --write-env-file ~/.gnupg/.gpg-agent-info)
   fi
   # Use gpg-agent for ssh auth
+  export GPG_TTY=$(tty)
   export SSH_AUTH_SOCK=~/.gnupg/S.gpg-agent.ssh
 fi
 
@@ -159,7 +172,7 @@ fi
 ######################
 
 if [[ -d $HOME/.sdkman ]]; then
-  export SDKMAN_DIR="/Users/michaeloconnor/.sdkman"
+  export SDKMAN_DIR="$HOME/.sdkman"
   if [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
     source "$HOME/.sdkman/bin/sdkman-init.sh"
     plugins+=(mvn gradle)
@@ -179,6 +192,19 @@ if [[ -d $HOME/.rd/bin ]]; then
   export PATH="$HOME/.rd/bin:$PATH"
   ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 fi
+
+alias kns='kubectl config set-context --current --namespace '
+alias kctx='kubectl config use-context '
+function decode_kubernetes_secret {
+  kubectl get secret $@ -o json | jq '.data | map_values(@base64d)'
+}
+alias ds="decode_kubernetes_secret"
+
+if [[ -d $HOME/.krew/bin ]]; then
+  export PATH="${PATH}:${HOME}/.krew/bin"
+fi
+
+plugins+=(kubectl helm)
 
 
 ######################

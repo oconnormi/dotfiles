@@ -222,7 +222,11 @@ fi
 
 ZSH=$HOME/.oh-my-zsh
 
-ZSH_THEME="blinks"
+if [[ -n "$TMUX" ]]; then
+  ZSH_THEME="arrow"
+else
+  ZSH_THEME="blinks"
+fi
 
 COMPLETION_WAITING_DOTS="true"
 

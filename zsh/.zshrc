@@ -30,6 +30,10 @@ fi
 
 export TERM='xterm-256color'
 
+if [[ -n "$XDG_CONFIG_HOME" ]]; then
+  export XDG_CONFIG_HOME=$HOME/.config
+fi
+
 ######################
 #  DIRCOLORS THEME   #
 ######################

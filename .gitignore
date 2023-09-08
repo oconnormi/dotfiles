@@ -87,3 +87,7 @@ release.properties
 *.classpath
 *.project
 *~
+
+
+# Ignore tmux plugins
+tmux/.config/tmux/plugins

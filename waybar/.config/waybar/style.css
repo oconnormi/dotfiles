@@ -1,0 +1,100 @@
+/*
+ * Originally adapted from https://raw.githubusercontent.com/dpgraham4401/.dotfiles/fedora/sway/.config/waybar/style.css
+ * Changes:
+ *   Colors: Solarized Dark (see colors.css)
+ *   Fonts: Inconsolata
+ *   Workspaces:
+ *     Inactive uses background color.
+ *     Uses base color as outline to create a clear workspace region.
+ *
+ * TODO: 
+ *   Add outer background - shift colors up one base level to account for this
+ *   Add padding to inner components
+ *   Add seperation between inner components, maybe make only the components on the ends of groups have border-radius with more minimal radius on inner edges.
+*/
+
+@import "colors.css";
+
+* {
+    border: none;
+    font-family: Font Awesome, Inconsolata;
+    font-size: 13px;
+    color: @base00;
+    border-radius: 20px;
+}
+
+window#waybar {
+    background: transparent;
+}
+/*-----module groups----*/
+.modules-right {
+    background-color: @base03;
+    margin: 2px 10px 0 0;
+}
+.modules-center {
+    background-color: @base03;
+    margin: 2px 0 0 0;
+}
+.modules-left {
+    margin: 2px 0 0 5px;
+    background-color: @base02;
+    border: 2px solid @base03;
+}
+/*-----modules indv----*/
+#workspaces button {
+    padding: 1px 5px;
+    background-color: transparent;
+}
+#workspaces button:hover {
+    box-shadow: inherit;
+	background-color: @green;
+}
+
+#workspaces button.focused {
+	background-color: @base03;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#temperature,
+#network,
+#pulseaudio,
+#custom-media,
+#tray,
+#mode,
+#custom-power,
+#custom-menu,
+#idle_inhibitor {
+    padding: 0 10px;
+}
+#mode {
+    color: @red;
+    font-weight: bold;
+}
+#custom-power {
+    background-color: @blue;
+    border-radius: 100px;
+    margin: 5px 5px;
+    padding: 1px 1px 1px 6px;
+}
+/*-----Indicators----*/
+#idle_inhibitor.activated {
+    color: @green;
+}
+#pulseaudio.muted {
+    color: @red;
+}
+#battery.charging {
+    color: @green;
+}
+#battery.warning:not(.charging) {
+	color: @yellow;
+}
+#battery.critical:not(.charging) {
+    color: @red;
+}
+#temperature.critical {
+    color: @red;
+}

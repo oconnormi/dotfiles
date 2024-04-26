@@ -18,8 +18,9 @@ set $term alacritty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu dmenu_path | dmenu | xargs swaymsg exec --
-
+#set $menu dmenu_path | dmenu | xargs swaymsg exec --
+#set $menu wmenu_run
+set $menu "rofi -combi-modi window,drun,ssh,run -show combi -show-icons"
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
@@ -222,20 +223,7 @@ bindsym $mod+r mode "resize"
 bar {
     font xft:Inconsolata Bold 14
     position top
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command i3blocks
-
-    colors {
-        background #002b36
-        statusline #839496
-        separator  #586e75
-        focused_workspace  #b58900 #b58900 #002b36
-        active_workspace   #586e75 #586e75 #002b36
-        inactive_workspace #073642 #002b36 #839496
-        urgent_workspace   #dc322f #dc322f #fdf6e3
-    }
+    swaybar_command waybar
 }
 
 include /etc/sway/config.d/*

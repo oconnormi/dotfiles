@@ -145,7 +145,7 @@ if [[ -x "$(command -v gpg-agent)" ]]; then
   fi
   # Use gpg-agent for ssh auth
   export GPG_TTY=$(tty)
-  export SSH_AUTH_SOCK=~/.gnupg/S.gpg-agent.ssh
+  export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 fi
 
 ######################
